@@ -74,7 +74,7 @@ controller.on(AUTOFIRE, () => player.fire())
 controller.on(HOLD_FIRE, () => player.holdfire())
 
 objects.on('points', () => {
-  state.point()
+state.point()
   points.innerHTML = state.score.toLocaleString()
 })
 
