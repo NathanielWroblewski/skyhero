@@ -1,6 +1,7 @@
 import Vector from './vector.js'
 import Damage from './damage.js'
 import { HEIGHT, WIDTH, INBOUNDS_OFFSET } from '../constants/boundaries.js'
+import { BOMBER } from '../constants/object_types.js'
 
 // Copyright (c) 2020 Nathaniel Wroblewski
 // I am making my contributions/submissions to this project solely in my personal
@@ -90,6 +91,15 @@ class GameObjects {
       this.bandits.forEach(bandit => {
         if (this.isIntersecting(bullet, bandit)) {
           this.collide(bandit, bullet)
+
+          if (bandit.type === BOMBER && bandit.collision) {
+            [20, -20].forEach(offset => {
+              this.damages.push(new Damage({
+                position: bandit.position.add(offset),
+                velocity: Vector.from([0, 0])
+              }))
+            })
+          }
 
           if (bandit.collision) this.trigger('points')
         }
