@@ -8,6 +8,7 @@ const MAX_DIFFICULTY = 5
 
 class GameState {
   constructor ({}) {
+    this.hasStarted = false
     this.isOver = false
     this.score = 0
 

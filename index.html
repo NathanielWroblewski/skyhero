@@ -38,8 +38,32 @@
         <p class="text">This site relies on javascript for proper operation.  Please consider enabling javascript for the full experience.
         </p>
       </noscript>
-      <canvas width="600" height="600" class="game"></canvas>
-      <p class="points-container">POINTS: <span class="points">0</span></p>
+      <div class="game-container">
+        <canvas width="600" height="600" class="game"></canvas>
+        <div class="start-screen">
+          <h2 class="banner text">SKY HERO</h2>
+          <p class="text">CLICK TO START!</p>
+          <div class="controls-container">
+            <p class="text">CONTROLS:</p>
+            <p class="text controls">
+              <span class="key">&#8679;</span>
+              <span class="key">&#8681;</span>
+              <span class="key">&#8678;</span>
+              <span class="key">&#8680;</span>
+              move
+            </p>
+            <p class="text controls">
+              <span class="space">space</span>
+              fire
+            </p>
+          </div>
+        </div>
+      </div>
+      <audio loop>
+        <source src="/skyhero/public/audio/stage-1.mp3" type="audio/mpeg" />
+        <source src="/skyhero/public/audio/stage-2.mp3" type="audio/mpeg" />
+      </audio>
+      <p class="text">POINTS: <span class="points">0</span></p>
       <img class="sprite player straight-01" src="/skyhero/public/images/plane-01-straight-01.png">
       <img class="sprite player straight-02" src="/skyhero/public/images/plane-01-straight-02.png">
       <img class="sprite player left" src="/skyhero/public/images/plane-01-left.png">
