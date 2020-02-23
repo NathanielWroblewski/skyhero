@@ -1,5 +1,6 @@
 import Vector from './vector.js'
 import Damage from './damage.js'
+import Smoke from './smoke.js'
 import { HEIGHT, WIDTH, INBOUNDS_OFFSET } from '../constants/boundaries.js'
 import { BOMBER } from '../constants/object_types.js'
 
@@ -20,7 +21,8 @@ const inBounds = ({ isStaged, position }, offset) => (
 class GameObjects {
   constructor ({
     player, bullets = [], bandits = [], damages = [], trees = [], terrain = [],
-    grounds = [], tree_shadows = [], panzers = [], rockets = [], bunkers = []
+    grounds = [], tree_shadows = [], panzers = [], rockets = [], bunkers = [],
+    bombers = []
   }) {
     this.players = [player]
     this.grounds = grounds
@@ -28,6 +30,7 @@ class GameObjects {
     this.bunkers = bunkers
     this.bullets = bullets
     this.bandits = bandits
+    this.bombers = bombers
     this.damages = damages
     this.rockets = rockets
     this.trees = trees
@@ -47,6 +50,7 @@ class GameObjects {
       ...this.trees,
       ...this.bullets,
       ...this.bandits,
+      ...this.bombers,
       ...this.damages,
       ...this.rockets,
       ...this.players
@@ -76,11 +80,13 @@ class GameObjects {
     )
   }
 
-  collide (object, target, velocity) {
+  collide (object, target, velocity, isDamage = true) {
+    const klass = isDamage ? Damage : Smoke
+
     object.collide()
     target.collide()
 
-    this.damages.push(new Damage({
+    this.damages.push(new klass({
       position: object.position,
       velocity: velocity || Vector.from([0, 0])
     }))
@@ -92,16 +98,32 @@ class GameObjects {
         if (this.isIntersecting(bullet, bandit)) {
           this.collide(bandit, bullet)
 
-          if (bandit.type === BOMBER && bandit.collision) {
-            [20, -20].forEach(offset => {
+          if (bandit.collision) this.trigger('points')
+        }
+      })
+
+      this.bombers.forEach(bomber => {
+        if (this.isIntersecting(bullet, bomber)) {
+          bullet.collide()
+          bomber.collide()
+
+          if (bomber.collision) {
+            const offsets = [20, 0, -20]
+
+            offsets.forEach(offset => {
               this.damages.push(new Damage({
-                position: bandit.position.add(offset),
+                position: bomber.position.add(offset),
                 velocity: Vector.from([0, 0])
               }))
             })
-          }
 
-          if (bandit.collision) this.trigger('points')
+            this.trigger('points')
+          } else {
+            this.damages.push(new Smoke({
+              position: bomber.position.add(Vector.from([0, 50])),
+              velocity: Vector.from([0, 0.5])
+            }))
+          }
         }
       })
 
@@ -115,9 +137,11 @@ class GameObjects {
 
       this.bunkers.forEach(bunker => {
         if (bunker.hp && this.isIntersecting(bullet, bunker)) {
-          this.collide(bunker, bullet, Vector.from([0, 0.5]))
+          this.collide(bunker, bullet, Vector.from([0, 0.5]), bunker.hp === 0)
 
-          if (bunker.collision) this.trigger('points')
+          if (bunker.collision) {
+            this.trigger('points')
+          }
         }
       })
     })
@@ -144,6 +168,7 @@ class GameObjects {
     this.panzers = this.panzers.filter(predicate)
     this.bullets = this.bullets.filter(predicate)
     this.bandits = this.bandits.filter(predicate)
+    this.bombers = this.bombers.filter(predicate)
     this.damages = this.damages.filter(predicate)
     this.players = this.players.filter(predicate)
     this.rockets = this.rockets.filter(predicate)

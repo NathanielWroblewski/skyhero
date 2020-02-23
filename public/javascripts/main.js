@@ -43,7 +43,9 @@ const waveMachine = new WaveMachine({ waves: 1, cooldown: 600 })
 const formations = new WaveMachine({ waves: 1, cooldown: 3000 }) // longest wave takes 1000, should be like ten times that
 const treeFactory = Factory.tree()
 const trees = Array(3).fill(0).map(() => treeFactory.seed({ x: [0, WIDTH], y: [0, HEIGHT] }))
-const tree_shadows = trees.map(tree => new TreeShadow({ position: tree.position, velocity: tree.velocity }))
+const tree_shadows = trees.map(({ position, velocity, classification }) => (
+  new TreeShadow({ position, velocity, classification })
+))
 const objects = new GameObjects({
   player,
   trees,
@@ -65,7 +67,7 @@ const WAVES = [
   { factory: Kamikazi, type: 'bandits' },
   { factory: Kamikazi, type: 'bandits' },
   { factory: Bunker, type: 'bunkers' },
-  { factory: Bomber, type: 'bandits' },
+  { factory: Bomber, type: 'bombers' },
 ]
 
 controller.on(INPUT_DIRECTION, directions => player.move(directions))
@@ -122,9 +124,9 @@ const step = () => {
     }
   })
 
-  objects.bandits.forEach(bandit => {
-    if (objects.players.length && bandit.type === BOMBER && bandit.firing && bandit.gunsCooled) {
-      const degree = angle(player.position, bandit.position)
+  objects.bombers.forEach(bomber => {
+    if (objects.players.length && bomber.firing && bomber.gunsCooled) {
+      const degree = angle(player.position, bomber.position)
       const degrees = [degree, degree + 10, degree - 10]
 
       degrees.forEach(deg => {
@@ -132,7 +134,7 @@ const step = () => {
         const velocity = Vector.from([Math.cos(radians), Math.sin(radians)]).multiply(4)
 
         objects.rockets.push(new Rocket({
-          position: bandit.position.add(velocity.multiply(5)),
+          position: bomber.position.add(velocity.multiply(5)),
           velocity
         }))
       })
@@ -149,7 +151,11 @@ const step = () => {
   const tree = treeFactory.spawn()
   if (tree) {
     objects.trees.push(tree)
-    objects.tree_shadows.push(new TreeShadow({ position: tree.position, velocity: tree.velocity }))
+    objects.tree_shadows.push(new TreeShadow({
+      position: tree.position,
+      velocity: tree.velocity,
+      classification: tree.classification
+    }))
   }
 
   if (objects.players.length) {
@@ -159,7 +165,10 @@ const step = () => {
     formations.tick()
 
     waveMachine.launch(() => {
-      shuffle(WAVES).slice(0, difficulty).forEach(object => {
+      const waves = difficulty < 3 || objects.bombers.length ?
+        WAVES.filter(obj => obj.type !== 'bombers') : WAVES
+
+      shuffle(waves).slice(0, difficulty).forEach(object => {
         objects.addWave(object.type, object.factory.wave({ objects, difficulty }))
       })
 

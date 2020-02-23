@@ -7,6 +7,12 @@ import { FRONDS } from '../constants/object_types.js'
 // third parties.
 
 class Tree extends GameObject {
+  constructor (props = {}) {
+    super(props)
+
+    this.classification = props.classification || Math.round(Math.random())
+  }
+
   get type () {
     return FRONDS
   }

@@ -9,9 +9,10 @@ import renderRocket from './rocket.js'
 import renderBunker from './bunker.js'
 import renderBomber from './bomber.js'
 import renderTreeShadow from './tree_shadow.js'
+import renderSmoke from './smoke.js'
 import {
   BULLET, PLAYER, BANDIT, DAMAGE, FRONDS, GROUND, TREE_SHADOW, PANZER, ROCKET,
-  BUNKER, BOMBER
+  BUNKER, BOMBER, SMOKE
 } from '../constants/object_types.js'
 
 // Copyright (c) 2019 Nathaniel Wroblewski
@@ -31,6 +32,7 @@ const GAME_OBJECTS = {
   [BUNKER]: renderBunker,
   [BOMBER]: renderBomber,
   [TREE_SHADOW]: renderTreeShadow,
+  [SMOKE]: renderSmoke,
 }
 
 const render = ({ element, object, players }) => {
