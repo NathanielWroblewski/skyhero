@@ -38,14 +38,16 @@ html, body {
 
 .text {
   width: 100%;
-  margin-top: 1.4rem;
-  margin-bottom: 1.4rem;
   vertical-align: baseline;
-  font-size: 1.4rem;
-  line-height: 2rem;
+  font-size: 1rem;
+  line-height: 1.2rem;
 }
 
 a:link, a:visited { color: inherit; }
+
+.game-container {
+  position: relative;
+}
 
 .game {
   height: 600px;
@@ -57,7 +59,61 @@ a:link, a:visited { color: inherit; }
   display: none;
 }
 
-.points-container {
+.text {
   color: #aaa;
   font-family: 'Press Start 2P', monospace;
+}
+
+.start-screen {
+  position: absolute;
+  top: 0px;
+  bottom: 0;
+  left: 0px;
+  right: 0;
+  background-color: #444;
+  cursor: pointer;
+}
+
+.banner {
+
+}
+
+.start-screen .text {
+  color: #fff;
+}
+
+.start-screen > .banner {
+  padding-top: 250px;
+}
+
+.start-screen > .banner,
+.start-screen > .text {
+  text-align: center;
+}
+
+.controls-container {
+  padding-top: 80px;
+  width: 280px;
+  margin: 0 auto;
+}
+
+.key {
+  font-weight: bold;
+  color: #aaa;
+}
+
+.key, .space {
+  border: 2px solid #aaa;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.space {
+  min-width: 180px;
+  display: inline-block;
+}
+
+.controls {
+  margin-bottom: 20px;
+  margin-top: 20px;
 }

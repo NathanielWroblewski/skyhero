@@ -191,6 +191,7 @@ class GameObjects {
     this.damages = this.damages.filter(predicate)
     this.players = this.players.filter(predicate)
     this.rockets = this.rockets.filter(predicate)
+    this.bunkers = this.bunkers.filter(predicate)
     this.trees = this.trees.filter(predicate)
     this.tree_shadows = this.tree_shadows.filter(predicate)
     this.upgrades = this.upgrades.filter(predicate)
