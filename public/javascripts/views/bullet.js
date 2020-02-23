@@ -3,7 +3,6 @@
 // capacity and am not conveying any rights to any intellectual property of any
 // third parties.
 
-const SPREAD = 15
 const WIDTH = 3
 const HEIGHT = 20
 const HAWIDTH = WIDTH / 2
@@ -17,21 +16,21 @@ const render = ({ element, object }) => {
   context.lineWidth = 1
 
   context.beginPath()
-  context.rect(object.position.x - HAWIDTH - SPREAD - 1, object.position.y - HAHEIGHT - 10, WIDTH + 2, HEIGHT)
+  context.rect(object.position.x - HAWIDTH - object.spread - 1, object.position.y - HAHEIGHT - 10, WIDTH + 2, HEIGHT)
   context.fill()
 
   context.beginPath()
-  context.rect(object.position.x - HAWIDTH + SPREAD - 1, object.position.y - HAHEIGHT - 10, WIDTH + 2, HEIGHT)
+  context.rect(object.position.x - HAWIDTH + object.spread - 1, object.position.y - HAHEIGHT - 10, WIDTH + 2, HEIGHT)
   context.fill()
 
   context.fillStyle = '#f0ff00'
 
   context.beginPath()
-  context.rect(object.position.x - HAWIDTH - SPREAD, object.position.y - HAHEIGHT - 10, WIDTH, HEIGHT)
+  context.rect(object.position.x - HAWIDTH - object.spread, object.position.y - HAHEIGHT - 10, WIDTH, HEIGHT)
   context.fill()
 
   context.beginPath()
-  context.rect(object.position.x - HAWIDTH + SPREAD, object.position.y - HAHEIGHT - 10, WIDTH, HEIGHT)
+  context.rect(object.position.x - HAWIDTH + object.spread, object.position.y - HAHEIGHT - 10, WIDTH, HEIGHT)
   context.fill()
 }
 

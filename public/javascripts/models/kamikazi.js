@@ -52,8 +52,10 @@ class Kamikazi extends Bandit {
     ]
   }
 
-  static wave () {
-    return new Array(2).fill(0).map(() => {
+  static wave ({ round }) {
+    const count = Math.min(Math.max(round, 2), 5)
+
+    return new Array(count).fill(0).map(() => {
       const speed = 5
       const [position, velocity] = this.randomStart(speed)
 

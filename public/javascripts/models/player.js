@@ -11,6 +11,12 @@ import { PLAYER } from '../constants/object_types.js'
 // third parties.
 
 class Player extends Aircraft {
+  constructor (params = {}) {
+    super(params)
+
+    this.weapons = 0
+  }
+
   get type () {
     return PLAYER
   }
@@ -70,6 +76,10 @@ class Player extends Aircraft {
       x: [this.position.x - 8, this.position.x + 8],
       y: [this.position.y - 20, this.position.y + 20],
     }
+  }
+
+  upgrade () {
+    this.weapons++
   }
 }
 

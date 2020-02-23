@@ -31,6 +31,7 @@ const player = new Player({
   speed: 5,
   cooldown: 10
 })
+
 const panzers = [
   new Panzer({
     position: Vector.from([300, 300]),
@@ -61,14 +62,33 @@ const objects = new GameObjects({
 })
 const state = new GameState({})
 
-const WAVES = [
-  { factory: Panzer, type: 'panzers' },
-  // { factory: Bandit, type: 'bandits' },
-  { factory: Kamikazi, type: 'bandits' },
-  { factory: Kamikazi, type: 'bandits' },
-  { factory: Bunker, type: 'bunkers' },
-  { factory: Bomber, type: 'bombers' },
-]
+const wavesFromDifficulty = difficulty => {
+  switch (difficulty) {
+    case 1: return [{ factory: Kamikazi, type: 'bandits' }]
+    case 2: return [
+      { factory: Kamikazi, type: 'bandits' },
+      { factory: Panzer, type: 'panzers' },
+    ]
+    case 3: return [
+      { factory: Kamikazi, type: 'bandits' },
+      { factory: Panzer, type: 'panzers' },
+      { factory: Bunker, type: 'bunkers' },
+    ]
+    case 4: return [
+      { factory: Kamikazi, type: 'bandits' },
+      { factory: Panzer, type: 'panzers' },
+      { factory: Bunker, type: 'bunkers' },
+      { factory: Bomber, type: 'bombers' },
+    ]
+    case 5: return [
+      { factory: Kamikazi, type: 'bandits' },
+      { factory: Kamikazi, type: 'bandits' },
+      { factory: Panzer, type: 'panzers' },
+      { factory: Bunker, type: 'bunkers' },
+      { factory: Bomber, type: 'bombers' },
+    ]
+  }
+}
 
 controller.on(INPUT_DIRECTION, directions => player.move(directions))
 controller.on(RELEASE_DIRECTION, directions => player.stop(directions))
@@ -96,7 +116,8 @@ const step = () => {
   if (player.firing && player.gunsCooled && !player.collision) {
     objects.bullets.push(new Bullet({
       position: player.position,
-      velocity: Vector.from([0, -10])
+      velocity: Vector.from([0, -10]),
+      weapons: player.weapons
     }))
   }
 
@@ -159,24 +180,23 @@ const step = () => {
   }
 
   if (objects.players.length) {
-    const difficulty = state.difficulty
+    const { difficulty, round } = state
 
     waveMachine.tick()
     formations.tick()
 
     waveMachine.launch(() => {
-      const waves = difficulty < 3 || objects.bombers.length ?
-        WAVES.filter(obj => obj.type !== 'bombers') : WAVES
+      const waves = wavesFromDifficulty(difficulty)
 
-      shuffle(waves).slice(0, difficulty).forEach(object => {
-        objects.addWave(object.type, object.factory.wave({ objects, difficulty }))
+      waves.forEach(object => {
+        objects.addWave(object.type, object.factory.wave({ objects, round, difficulty }))
       })
 
       state.ratchet()
     })
 
     formations.launch(() => {
-      objects.addWave('bandits', Bandit.formation({ objects, difficulty }))
+      objects.addWave('bandits', Bandit.formation({ objects, round, difficulty }))
     })
   }
 

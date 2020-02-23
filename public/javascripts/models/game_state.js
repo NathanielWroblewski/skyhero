@@ -10,13 +10,18 @@ class GameState {
   constructor ({}) {
     this.isOver = false
     this.score = 0
+
+    this.round = 0
     this.difficulty = 1
     this.difficultyDirection = 1
   }
 
   ratchet () {
     if (this.difficulty === MAX_DIFFICULTY) this.difficultyDirection = -1
-    if (this.difficulty === MIN_DIFFICULTY) this.difficultyDirection = 1
+    if (this.difficulty === MIN_DIFFICULTY) {
+      this.difficultyDirection = 1
+      this.round++
+    }
 
     this.difficulty = this.difficulty + this.difficultyDirection
   }
