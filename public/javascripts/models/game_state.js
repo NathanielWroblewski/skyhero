@@ -10,7 +10,7 @@ class GameState {
   constructor ({}) {
     this.isOver = false
     this.score = 0
-    this.difficulty = MIN_DIFFICULTY
+    this.difficulty = 1
     this.difficultyDirection = 1
   }
 

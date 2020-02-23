@@ -2,7 +2,10 @@
 // I am making my contributions/submissions to this project solely in my personal
 // capacity and am not conveying any rights to any intellectual property of any
 // third parties.
-const IMG = document.querySelector('.sprite.tree-1')
+const IMGS = [
+  document.querySelector('.sprite.tree-1'),
+  document.querySelector('.sprite.tree-2'),
+]
 const TREE_IMG_WIDTH = 96
 const TREE_IMG_HEIGHT = 81
 const HALF_TREE_IMG_WIDTH = TREE_IMG_WIDTH / 2
@@ -12,7 +15,7 @@ const render = ({ element, object }) => {
   const context = element.getContext('2d')
 
   context.drawImage(
-    IMG,
+    IMGS[object.classification],
     object.position.x - HALF_TREE_IMG_WIDTH,  // image upper-left x-coordinate
     object.position.y - HALF_TREE_IMG_HEIGHT, // image upper-left y-coordinate
     TREE_IMG_WIDTH, // image width
