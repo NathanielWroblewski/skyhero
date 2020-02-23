@@ -1,6 +1,7 @@
 import Vector from './vector.js'
 import Damage from './damage.js'
 import Smoke from './smoke.js'
+import Upgrade from './upgrade.js'
 import { HEIGHT, WIDTH, INBOUNDS_OFFSET } from '../constants/boundaries.js'
 import { BOMBER } from '../constants/object_types.js'
 
@@ -18,11 +19,13 @@ const inBounds = ({ isStaged, position }, offset) => (
   )
 )
 
+// TODO: No knowledge of Damage, Smoke, Upgrade, instead callback
+
 class GameObjects {
   constructor ({
     player, bullets = [], bandits = [], damages = [], trees = [], terrain = [],
     grounds = [], tree_shadows = [], panzers = [], rockets = [], bunkers = [],
-    bombers = []
+    bombers = [], upgrades = []
   }) {
     this.players = [player]
     this.grounds = grounds
@@ -33,8 +36,9 @@ class GameObjects {
     this.bombers = bombers
     this.damages = damages
     this.rockets = rockets
-    this.trees = trees
     this.tree_shadows = tree_shadows
+    this.upgrades = upgrades
+    this.trees = trees
 
     this._on = {
       points: []
@@ -48,6 +52,7 @@ class GameObjects {
       ...this.bunkers,
       ...this.tree_shadows,
       ...this.trees,
+      ...this.upgrades,
       ...this.bullets,
       ...this.bandits,
       ...this.bombers,
@@ -99,6 +104,10 @@ class GameObjects {
           this.collide(bandit, bullet)
 
           if (bandit.collision) this.trigger('points')
+          if (bandit.hasCargo) this.upgrades.push(new Upgrade({
+            position: bandit.position,
+            velocity: Vector.from([-3, 0])
+          }))
         }
       })
 
@@ -137,7 +146,10 @@ class GameObjects {
 
       this.bunkers.forEach(bunker => {
         if (bunker.hp && this.isIntersecting(bullet, bunker)) {
-          this.collide(bunker, bullet, Vector.from([0, 0.5]), bunker.hp === 0)
+          const isDestroyed = bunker.hp === 0
+          const velocity = isDestroyed ? Vector.from([0, 0.5]) : Vector.from([0, 0])
+
+          this.collide(bunker, bullet, velocity, isDestroyed)
 
           if (bunker.collision) {
             this.trigger('points')
@@ -147,6 +159,13 @@ class GameObjects {
     })
 
     this.players.forEach(player => {
+      this.upgrades.forEach(upgrade => {
+        if (!upgrade.collision && this.isIntersecting(upgrade, player)) {
+          upgrade.collide()
+          player.upgrade()
+        }
+      })
+
       this.bandits.forEach(bandit => {
         if (!bandit.collision && this.isIntersecting(bandit, player)) {
           this.collide(player, bandit)
@@ -174,6 +193,7 @@ class GameObjects {
     this.rockets = this.rockets.filter(predicate)
     this.trees = this.trees.filter(predicate)
     this.tree_shadows = this.tree_shadows.filter(predicate)
+    this.upgrades = this.upgrades.filter(predicate)
   }
 
   addWave (type, wave) {

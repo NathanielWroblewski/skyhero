@@ -7,6 +7,12 @@ import { STRAIGHT } from '../constants/yoke_states.js'
 // third parties.
 
 class Aircraft extends Manned {
+  constructor (params = {}) {
+    super(params)
+
+    this.hasCargo = params.hasCargo
+  }
+
   get yokeState () {
     return STRAIGHT
   }

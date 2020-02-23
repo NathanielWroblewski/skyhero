@@ -37,7 +37,7 @@ class Bandit extends Aircraft {
   static formation () {
     const classification = sample(CLASSIFICATIONS.slice(1, 3))
     const route = sample(['R', 'O', 'N', 'helix'])
-    const speed = 5
+    const speed = 4
     let position, velocity
 
     switch (route) {
@@ -52,7 +52,8 @@ class Bandit extends Aircraft {
             classification,
             route: new NavComputer({ route: 'O' }),
             speed,
-            staged: true
+            staged: true,
+            hasCargo: index === 7
           })
         })
       case 'N':
@@ -66,7 +67,8 @@ class Bandit extends Aircraft {
             classification,
             route: new NavComputer({ route: 'N' }),
             speed,
-            staged: true
+            staged: true,
+            hasCargo: index === 7
           })
         })
       case 'R':
@@ -80,7 +82,8 @@ class Bandit extends Aircraft {
             classification,
             route: new NavComputer({ route: 'R' }),
             speed,
-            staged: true
+            staged: true,
+            hasCargo: index === 7
           })
         })
       case 'helix':
@@ -105,7 +108,8 @@ class Bandit extends Aircraft {
             classification,
             route: new NavComputer({ route: 'rightHelixUp' }),
             speed,
-            staged: true
+            staged: true,
+            hasCargo: index === 7
           }))
         })
 

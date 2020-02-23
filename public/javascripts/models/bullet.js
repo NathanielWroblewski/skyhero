@@ -6,14 +6,26 @@ import { BULLET } from '../constants/object_types.js'
 // capacity and am not conveying any rights to any intellectual property of any
 // third parties.
 
+const SPREADS = [15, 20, 25, 30]
+
 class Bullet extends GameObject {
+  constructor (params = {}) {
+    super(params)
+
+    this.weapons = params.weapons || 0
+  }
+
+  get spread () {
+    return SPREADS[Math.min(this.weapons, 3)]
+  }
+
   get type () {
     return BULLET
   }
 
   get extent () {
     return {
-      x: [this.position.x - 15, this.position.x + 15],
+      x: [this.position.x - this.spread, this.position.x + this.spread],
       y: [this.position.y - 10, this.position.y + 10],
     }
   }
