@@ -11,27 +11,31 @@ const HAHEIGHT = HEIGHT / 2
 const render = ({ element, object }) => {
   const context = element.getContext('2d')
 
-  context.fillStyle = '#ff0000'
-
   context.lineWidth = 1
 
-  context.beginPath()
-  context.rect(object.position.x - HAWIDTH - object.spread - 1, object.position.y - HAHEIGHT - 10, WIDTH + 2, HEIGHT)
-  context.fill()
+  object.spreads.forEach(distance => {
+    if (distance <= object.spread) {
+      context.fillStyle = '#ff0000'
 
-  context.beginPath()
-  context.rect(object.position.x - HAWIDTH + object.spread - 1, object.position.y - HAHEIGHT - 10, WIDTH + 2, HEIGHT)
-  context.fill()
+      context.beginPath()
+      context.rect(object.position.x - HAWIDTH - distance - 1, object.position.y - HAHEIGHT - 10, WIDTH + 2, HEIGHT)
+      context.fill()
 
-  context.fillStyle = '#f0ff00'
+      context.beginPath()
+      context.rect(object.position.x - HAWIDTH + distance - 1, object.position.y - HAHEIGHT - 10, WIDTH + 2, HEIGHT)
+      context.fill()
 
-  context.beginPath()
-  context.rect(object.position.x - HAWIDTH - object.spread, object.position.y - HAHEIGHT - 10, WIDTH, HEIGHT)
-  context.fill()
+      context.fillStyle = '#f0ff00'
 
-  context.beginPath()
-  context.rect(object.position.x - HAWIDTH + object.spread, object.position.y - HAHEIGHT - 10, WIDTH, HEIGHT)
-  context.fill()
+      context.beginPath()
+      context.rect(object.position.x - HAWIDTH - distance, object.position.y - HAHEIGHT - 10, WIDTH, HEIGHT)
+      context.fill()
+
+      context.beginPath()
+      context.rect(object.position.x - HAWIDTH + distance, object.position.y - HAHEIGHT - 10, WIDTH, HEIGHT)
+      context.fill()
+    }
+  })
 }
 
 export default render

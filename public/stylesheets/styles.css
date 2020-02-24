@@ -64,30 +64,32 @@ a:link, a:visited { color: inherit; }
   font-family: 'Press Start 2P', monospace;
 }
 
-.start-screen {
+.overlay {
   position: absolute;
   top: 0px;
   bottom: 0;
   left: 0px;
   right: 0;
+}
+
+.start-screen {
   background-color: #444;
   cursor: pointer;
 }
 
-.banner {
-
-}
-
-.start-screen .text {
+.start-screen .text,
+.game-over .text {
   color: #fff;
 }
 
-.start-screen > .banner {
+.start-screen > .banner,
+.game-over > .banner {
   padding-top: 250px;
 }
 
 .start-screen > .banner,
-.start-screen > .text {
+.start-screen > .text,
+.game-over > .banner {
   text-align: center;
 }
 
@@ -116,4 +118,8 @@ a:link, a:visited { color: inherit; }
 .controls {
   margin-bottom: 20px;
   margin-top: 20px;
+}
+
+.game-over {
+  display: none;
 }

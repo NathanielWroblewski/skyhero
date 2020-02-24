@@ -1,4 +1,4 @@
-import Vector from './vector.js'
+ import Vector from './vector.js'
 import Aircraft from './aircraft.js'
 import { HALF_PLANE_WIDTH, HALF_PLANE_HEIGHT } from '../constants/dimensions.js'
 import { STRAIGHT, YOKE_LEFT, YOKE_RIGHT } from '../constants/yoke_states.js'
