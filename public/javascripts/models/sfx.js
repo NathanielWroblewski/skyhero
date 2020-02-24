@@ -12,6 +12,7 @@ class SFX {
 
   play () {
     this._sfx.pause()
+    this._sfx.volume = 0.2
     this._sfx.currentTime = 0
     this._sfx.play()
   }
