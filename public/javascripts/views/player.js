@@ -17,7 +17,7 @@ const Y_SHADOW_OFFSET = 60
 
 const IMG = {
   [STRAIGHT]: {
-    plane: document.querySelector('.sprite.player.straight-01'),
+    plane: document.querySelector('.sprite.player.straight'),
     shadow: document.querySelector('.sprite.player.shadow'),
   },
   [YOKE_LEFT]: {
