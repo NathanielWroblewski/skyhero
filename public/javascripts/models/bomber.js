@@ -40,12 +40,12 @@ class Bomber extends Armored {
   static randomStart () {
     return [
       Vector.from([(Math.random() * (WIDTH - 200)) + 100, HEIGHT + 50]),
-      Vector.from([0, -0.5]),
+      Vector.from([0, -0.5])
     ]
   }
 
   static wave ({ objects, difficulty }) {
-    return [this.spawn({ hp: 25 })]
+    return [this.spawn({ hp: 12 })]
   }
 }
 

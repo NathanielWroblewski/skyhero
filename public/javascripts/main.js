@@ -10,6 +10,8 @@ import Bunker from './models/bunker.js'
 import Bomber from './models/bomber.js'
 import Factory from './models/factory.js'
 import Kamikazi from './models/kamikazi.js'
+import SFX from './models/sfx.js'
+import Soundtrack from './models/soundtrack.js'
 import TreeShadow from './models/tree_shadow.js'
 import WaveMachine from './models/wave_machine.js'
 import Controller from './controllers/controller.js'
@@ -23,6 +25,10 @@ import { tile, shuffle, angle } from './utilities/index.js'
 
 const points = document.querySelector('.points')
 const audio = document.querySelector('audio')
+const soundtrack = new Soundtrack(audio)
+
+const shoot = new SFX('shoot.wav')
+const boom = new SFX('explosion.wav')
 
 const element = document.querySelector('.game')
 const controller = new Controller({ input: document })
@@ -96,9 +102,19 @@ controller.on(RELEASE_DIRECTION, directions => player.stop(directions))
 controller.on(AUTOFIRE, () => player.fire())
 controller.on(HOLD_FIRE, () => player.holdfire())
 
-objects.on('points', () => {
+// TODO: absract sfx
+objects.on('hit', () => {
+  boom.play()
+
   state.point()
   points.innerHTML = state.score.toLocaleString()
+})
+
+objects.on('death', () => {
+  boom.play()
+
+  state.endGame()
+  soundtrack.credits()
 })
 
 const step = () => {
@@ -115,6 +131,8 @@ const step = () => {
   objects.bound()
 
   if (player.firing && player.gunsCooled && !player.collision) {
+    shoot.play()
+
     objects.bullets.push(new Bullet({
       position: player.position,
       velocity: Vector.from([0, -10]),
@@ -163,13 +181,6 @@ const step = () => {
     }
   })
 
-  if (player.firing && player.gunsCooled && !player.collision) {
-    objects.bullets.push(new Bullet({
-      position: player.position,
-      velocity: Vector.from([0, -10])
-    }))
-  }
-
   const tree = treeFactory.spawn()
   if (tree) {
     objects.trees.push(tree)
@@ -213,7 +224,7 @@ const step = () => {
 document.addEventListener('click', () => {
   if (!state.hasStarted) {
     state.hasStarted = true
-    audio.play()
+    soundtrack.play()
     document.querySelector('.start-screen').style.display = 'none'
     window.requestAnimationFrame(() => step())
   }

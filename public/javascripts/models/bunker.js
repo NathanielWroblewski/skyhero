@@ -62,7 +62,7 @@ class Bunker extends Armored {
   }
 
   static wave ({ objects, difficulty }) {
-    return [this.spawn({ hp: 15 })]
+    return [this.spawn({ hp: 7 })]
   }
 }
 
