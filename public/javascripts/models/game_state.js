@@ -30,6 +30,10 @@ class GameState {
   point () {
     this.score = this.score + 10
   }
+
+  endGame () {
+    this.isOver = true
+  }
 }
 
 export default GameState

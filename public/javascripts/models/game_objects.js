@@ -41,7 +41,9 @@ class GameObjects {
     this.trees = trees
 
     this._on = {
-      points: []
+      death: [],
+      hit: [],
+      upgrade: []
     }
   }
 
@@ -106,7 +108,7 @@ class GameObjects {
         if (this.isIntersecting(bullet, bandit)) {
           this.collide(bandit, bullet)
 
-          if (bandit.collision) this.trigger('points')
+          if (bandit.collision) this.trigger('hit')
           if (bandit.hasCargo) this.upgrades.push(new Upgrade({
             position: bandit.position,
             velocity: Vector.from([-3, 0])
@@ -128,14 +130,14 @@ class GameObjects {
                 velocity: Vector.from([0, 0])
               }))
             })
-
-            this.trigger('points')
           } else {
             this.damages.push(new Smoke({
               position: bomber.position.add(Vector.from([0, 50])),
               velocity: Vector.from([0, 0.5])
             }))
           }
+
+          this.trigger('hit')
         }
       })
 
@@ -143,7 +145,7 @@ class GameObjects {
         if (this.isIntersecting(bullet, panzer)) {
           this.collide(panzer, bullet, Vector.from([0, 0.5]))
 
-          if (panzer.collision) this.trigger('points')
+          if (panzer.collision) this.trigger('hit')
         }
       })
 
@@ -153,10 +155,7 @@ class GameObjects {
           const velocity = isDestroyed ? Vector.from([0, 0.5]) : Vector.from([0, 0])
 
           this.collide(bunker, bullet, velocity, isDestroyed)
-
-          if (bunker.collision) {
-            this.trigger('points')
-          }
+          this.trigger('hit')
         }
       })
     })
@@ -166,18 +165,21 @@ class GameObjects {
         if (!upgrade.collision && this.isIntersecting(upgrade, player)) {
           upgrade.collide()
           player.upgrade()
+          this.trigger('upgrade')
         }
       })
 
       this.bandits.forEach(bandit => {
         if (!bandit.collision && this.isIntersecting(bandit, player)) {
           this.collide(player, bandit)
+          this.trigger('death')
         }
       })
 
       this.rockets.forEach(rocket => {
         if (!rocket.collision && this.isIntersecting(rocket, player)) {
           this.collide(player, rocket)
+          this.trigger('death')
         }
       })
     })
