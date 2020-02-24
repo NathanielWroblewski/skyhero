@@ -11,6 +11,7 @@ import Bomber from './models/bomber.js'
 import Factory from './models/factory.js'
 import Kamikazi from './models/kamikazi.js'
 import SFX from './models/sfx.js'
+import Upgrade from './models/upgrade.js'
 import Soundtrack from './models/soundtrack.js'
 import TreeShadow from './models/tree_shadow.js'
 import WaveMachine from './models/wave_machine.js'
@@ -29,6 +30,7 @@ const soundtrack = new Soundtrack(audio)
 
 const shoot = new SFX('shoot.ogg')
 const boom = new SFX('explosion.ogg')
+const upgrade = new SFX('upgrade.ogg')
 
 const element = document.querySelector('.game')
 const controller = new Controller({ input: document })
@@ -117,6 +119,8 @@ objects.on('death', () => {
   soundtrack.credits()
   document.querySelector('.game-over').style.display = 'block';
 })
+
+objects.on('upgrade', () => upgrade.play())
 
 const step = () => {
   if (objects.grounds[objects.grounds.length - 1].position.y === 0) {
