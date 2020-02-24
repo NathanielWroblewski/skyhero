@@ -23,9 +23,6 @@ import { tile, shuffle, angle } from './utilities/index.js'
 
 const points = document.querySelector('.points')
 const audio = document.querySelector('audio')
-const track = Math.round(Math.random()) + 1
-
-audio.setAttribute('src', `/skyhero/public/audio/stage-${track}.mp3`)
 
 const element = document.querySelector('.game')
 const controller = new Controller({ input: document })

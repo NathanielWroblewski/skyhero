@@ -45,6 +45,7 @@ class GameObjects {
     }
   }
 
+  // Returns all game objects in render order
   get all () {
     return [
       ...this.grounds,
@@ -97,6 +98,8 @@ class GameObjects {
     }))
   }
 
+  // on death, callback, change audio set game state
+  // audio.setAttribute('src', `/public/audio/stage-${track}.mp3`)
   collideAll () {
     this.bullets.forEach(bullet => {
       this.bandits.forEach(bandit => {
