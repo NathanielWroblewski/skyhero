@@ -27,8 +27,8 @@ const points = document.querySelector('.points')
 const audio = document.querySelector('audio')
 const soundtrack = new Soundtrack(audio)
 
-const shoot = new SFX('shoot.wav')
-const boom = new SFX('explosion.wav')
+const shoot = new SFX('shoot.ogg')
+const boom = new SFX('explosion.ogg')
 
 const element = document.querySelector('.game')
 const controller = new Controller({ input: document })

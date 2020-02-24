@@ -11,6 +11,7 @@ class Soundtrack {
   }
 
   play () {
+    this._audio.volume = 0.2
     this._audio.play()
   }
 
