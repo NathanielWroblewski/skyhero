@@ -115,6 +115,7 @@ objects.on('death', () => {
 
   state.endGame()
   soundtrack.credits()
+  document.querySelector('.game-over').style.display = 'block';
 })
 
 const step = () => {

@@ -31,5 +31,5 @@ change inbounds logic to be direction + offscreen
 bomber-1.png could be boss? vs tank car
 helix should come in from side, not behind
 formation flyers should be smoother, borrow angle code
-upgraded cannons should do more damage
+upgraded cannons should do more damage, maybe
 clean-up start screen rendering
