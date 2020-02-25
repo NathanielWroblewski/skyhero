@@ -37,4 +37,4 @@ export const angle = (position, target) => {
   return Math.atan2(diff.y, diff.x) / Math.PI * 180
 }
 
-export const audioPath = file => `/skyhero/public/audio/${file}`
+export const audioPath = file => `//d3pgqkde1z8qd8.cloudfront.net/audio/${file}`
