@@ -25,6 +25,11 @@ import { BOMBER } from './constants/object_types.js'
 import { WIDTH, HEIGHT } from './constants/boundaries.js'
 import { tile, shuffle, angle } from './utilities/index.js'
 
+// Copyright (c) 2019 Nathaniel Wroblewski
+// I am making my contributions/submissions to this project solely in my personal
+// capacity and am not conveying any rights to any intellectual property of any
+// third parties.
+
 const points = document.querySelector('.points')
 const audio = document.querySelector('audio')
 const soundtrack = new Soundtrack(audio)
