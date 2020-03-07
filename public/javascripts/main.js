@@ -10,6 +10,7 @@ import Bunker from './models/bunker.js'
 import Bomber from './models/bomber.js'
 import Factory from './models/factory.js'
 import Kamikazi from './models/kamikazi.js'
+import Miniboss from './models/miniboss.js'
 import SFX from './models/sfx.js'
 import Upgrade from './models/upgrade.js'
 import Soundtrack from './models/soundtrack.js'
@@ -95,6 +96,7 @@ const wavesFromDifficulty = difficulty => {
       { factory: Panzer, type: 'panzers' },
       { factory: Bunker, type: 'bunkers' },
       { factory: Bomber, type: 'bombers' },
+      { factory: Miniboss, type: 'minibosses' },
     ]
   }
 }
@@ -104,7 +106,6 @@ controller.on(RELEASE_DIRECTION, directions => player.stop(directions))
 controller.on(AUTOFIRE, () => player.fire())
 controller.on(HOLD_FIRE, () => player.holdfire())
 
-// TODO: absract sfx
 objects.on('hit', () => {
   boom.play()
 
@@ -183,6 +184,20 @@ const step = () => {
           velocity
         }))
       })
+    }
+  })
+
+  objects.minibosses.forEach(miniboss => {
+    if (objects.players.length && miniboss.firing && miniboss.gunsCooled) {
+      const radians = miniboss.turretAngle * Math.PI / 180
+      const velocity = Vector.from([Math.cos(radians), Math.sin(radians)]).multiply(4)
+
+      miniboss.sweep()
+
+      objects.rockets.push(new Rocket({
+        position: miniboss.position.add(velocity.multiply(5)),
+        velocity
+      }))
     }
   })
 

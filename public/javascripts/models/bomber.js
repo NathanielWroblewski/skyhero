@@ -1,10 +1,7 @@
 import Vector from './vector.js'
 import Armored from './armored.js'
-import { STRAIGHT } from '../constants/yoke_states.js'
-import { UP, DOWN, LEFT, RIGHT } from '../constants/keys.js'
 import { BOMBER } from '../constants/object_types.js'
 import { WIDTH, HEIGHT } from '../constants/boundaries.js'
-import { sample, shuffle, angle } from '../utilities/index.js'
 
 // Copyright (c) 2020 Nathaniel Wroblewski
 // I am making my contributions/submissions to this project solely in my personal
@@ -23,7 +20,7 @@ class Bomber extends Armored {
     }
   }
 
-  static spawn ({ speed = 0.5, firing = true, hp = 15 }) {
+  static spawn ({ speed = 0.5, firing = true, hp = 12 }) {
     const [position, velocity] = this.randomStart()
     const temperature = Math.floor(Math.random() * 100) + 1
 
@@ -44,8 +41,8 @@ class Bomber extends Armored {
     ]
   }
 
-  static wave ({ objects, difficulty }) {
-    return [this.spawn({ hp: 12 })]
+  static wave ({ objects, round }) {
+    return (!objects.bombers.length || round > 2) ? [this.spawn({ hp: 12 })] : []
   }
 }
 
