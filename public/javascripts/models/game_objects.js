@@ -25,7 +25,7 @@ class GameObjects {
   constructor ({
     player, bullets = [], bandits = [], damages = [], trees = [], terrain = [],
     grounds = [], tree_shadows = [], panzers = [], rockets = [], bunkers = [],
-    bombers = [], upgrades = []
+    bombers = [], upgrades = [], minibosses = []
   }) {
     this.players = [player]
     this.grounds = grounds
@@ -37,6 +37,7 @@ class GameObjects {
     this.damages = damages
     this.rockets = rockets
     this.tree_shadows = tree_shadows
+    this.minibosses = minibosses
     this.upgrades = upgrades
     this.trees = trees
 
@@ -59,6 +60,7 @@ class GameObjects {
       ...this.bullets,
       ...this.bandits,
       ...this.bombers,
+      ...this.minibosses,
       ...this.damages,
       ...this.rockets,
       ...this.players
@@ -100,8 +102,6 @@ class GameObjects {
     }))
   }
 
-  // on death, callback, change audio set game state
-  // audio.setAttribute('src', `/public/audio/stage-${track}.mp3`)
   collideAll () {
     this.bullets.forEach(bullet => {
       this.bandits.forEach(bandit => {
@@ -109,14 +109,18 @@ class GameObjects {
           this.collide(bandit, bullet)
 
           if (bandit.collision) this.trigger('hit')
-          if (bandit.hasCargo) this.upgrades.push(new Upgrade({
-            position: bandit.position,
-            velocity: Vector.from([-3, 0])
-          }))
+          if (bandit.hasCargo) {
+            this.upgrades.push(new Upgrade({
+              position: bandit.position,
+              velocity: Vector.from([-3, 0])
+            }))
+          }
         }
       })
 
-      this.bombers.forEach(bomber => {
+      const bombers = [...this.bombers, ...this.minibosses]
+
+      bombers.forEach(bomber => {
         if (this.isIntersecting(bullet, bomber)) {
           bullet.collide()
           bomber.collide()
@@ -169,7 +173,9 @@ class GameObjects {
         }
       })
 
-      this.bandits.forEach(bandit => {
+      const planes = [...this.bandits, ...this.bombers, ...this.minibosses]
+
+      planes.forEach(bandit => {
         if (!bandit.collision && this.isIntersecting(bandit, player)) {
           this.collide(player, bandit)
           this.trigger('death')
@@ -199,6 +205,7 @@ class GameObjects {
     this.bunkers = this.bunkers.filter(predicate)
     this.trees = this.trees.filter(predicate)
     this.tree_shadows = this.tree_shadows.filter(predicate)
+    this.minibosses = this.minibosses.filter(predicate)
     this.upgrades = this.upgrades.filter(predicate)
   }
 
