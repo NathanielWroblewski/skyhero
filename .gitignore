@@ -1,3 +1,5 @@
 .DS_Store
 /public/images/*
 /public/audio/*
+!/public/images/screenshot.png
+!/public/images/video_thumbnail.png
