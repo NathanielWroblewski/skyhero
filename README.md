@@ -1,7 +1,10 @@
 sky-shark
 ===
 
-![Screenshot](https://raw.githubusercontent.com/NathanielWroblewski/sky-shark/master/public/images/screenshot.png)
+[![Screenshot](https://raw.githubusercontent.com/NathanielWroblewski/skyhero/master/public/images/video_thumbnail.png)](https://youtu.be/HUTJNY7UE8o)
+
+![Screenshot](https://raw.githubusercontent.com/NathanielWroblewski/skyhero/master/public/images/screenshot.png)
+
 
 Running locally
 ---
