@@ -1,10 +1,12 @@
-sky-shark
+SkyHero
 ===
-
-[![Screenshot](https://raw.githubusercontent.com/NathanielWroblewski/skyhero/master/public/images/video_thumbnail.png)](https://youtu.be/HUTJNY7UE8o)
 
 ![Screenshot](https://raw.githubusercontent.com/NathanielWroblewski/skyhero/master/public/images/screenshot.png)
 
+Watch a video here:
+[![Screenshot](https://raw.githubusercontent.com/NathanielWroblewski/skyhero/master/public/images/video_thumbnail.png)](https://youtu.be/HUTJNY7UE8o)
+
+Play [here](https://www.nathaniel.ai/skyhero)
 
 Running locally
 ---
