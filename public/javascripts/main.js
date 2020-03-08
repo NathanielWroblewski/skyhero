@@ -39,13 +39,13 @@ const boom = new SFX('explosion.ogg')
 const upgrade = new SFX('upgrade.ogg')
 
 const element = document.querySelector('.game')
-const controller = new Controller({ input: document })
 const player = new Player({
   position: Vector.from([300, 550]),
   velocity: Vector.from([0, 0]),
   speed: 5,
   cooldown: 10
 })
+const controller = new Controller({ input: document, canvas: element, player })
 
 const panzers = [
   new Panzer({
