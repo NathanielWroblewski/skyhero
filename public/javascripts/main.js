@@ -97,7 +97,6 @@ const wavesFromDifficulty = difficulty => {
     ]
     case 5: return [
       { factory: Kamikazi, type: 'bandits' },
-      { factory: Kamikazi, type: 'bandits' },
       { factory: Panzer, type: 'panzers' },
       { factory: Bunker, type: 'bunkers' },
       { factory: Bomber, type: 'bombers' },
