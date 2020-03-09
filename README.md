@@ -14,8 +14,8 @@ Running locally
 On a mac, clone the repo, and run a server:
 
 ```
-$ git clone https://github.com/NathanielWroblewski/sky-shark.git
-$ cd sky-shark
+$ git clone https://github.com/NathanielWroblewski/skyhero.git
+$ cd skyhero
 $ open http://localhost:8000 && python3 -m http.server
 ```
 
